@@ -1,0 +1,50 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Beta to testflight or Release to AppStore? 👀'
+        required: true
+        default: 'beta'
+        type: choice
+        options:
+        - beta
+        - release
+      bump_type:
+        description: 'Which bump type do you want? 🚀'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - major
+        - minor
+        - patch
+      bump_build_number:
+        description: 'Do you want to bump the build? 🤷🏼'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+
+  manual_trigger:
+   name: Testing manual
+   runs-on: macos-12
+
+   steps:
+     - uses: actions/checkout@v3
+       with:
+         ref: main
+         fetch-depth: 0
+         lfs: true
+
+     - run: |
+          git rev-parse HEAD
+          echo "bump_build_number: $bump_build_number"
+          echo "bump_type: $bump_type"
+          echo "release_type: $release_type"
+        env:
+          release_type: ${{ inputs.release_type }}
+          bump_type: ${{ inputs.bump_type }}
+          bump_build_number: ${{ inputs.bump_build_number }}
