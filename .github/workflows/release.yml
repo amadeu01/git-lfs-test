@@ -35,16 +35,17 @@ jobs:
    steps:
      - uses: actions/checkout@v3
        with:
-         ref: main
+         ref: ${{ ref }}
          fetch-depth: 0
          lfs: true
 
      - run: |
+          ls
           git rev-parse HEAD
           echo "bump_build_number: $bump_build_number"
           echo "bump_type: $bump_type"
           echo "release_type: $release_type"
-        env:
+       env:
           release_type: ${{ inputs.release_type }}
           bump_type: ${{ inputs.bump_type }}
           bump_build_number: ${{ inputs.bump_build_number }}
