@@ -35,7 +35,6 @@ jobs:
    steps:
      - uses: actions/checkout@v3
        with:
-         ref: ${{ ref }}
          fetch-depth: 0
          lfs: true
 
