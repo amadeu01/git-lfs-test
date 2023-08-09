@@ -36,11 +36,16 @@ jobs:
               ).data[0].number;
             }
           result-encoding: string
+
+      - name: Issue number
+        run: echo '${{steps.get_issue_number.outputs.result}}'
+  
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
+
       - name: Approve Release
         uses: hmarr/auto-approve-action@v2
         with:
