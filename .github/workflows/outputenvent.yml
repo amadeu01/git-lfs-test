@@ -1,0 +1,29 @@
+name: Output
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  approve-if-release:
+    name: Approve Pull Request
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      pull-requests: write
+    
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+      - name: Approve Release
+        uses: hmarr/auto-approve-action@v2
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
