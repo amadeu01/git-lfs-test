@@ -1,4 +1,5 @@
 name: 'Run Tests'
+description: Run tests
 
 runs:
   using: "composite"
