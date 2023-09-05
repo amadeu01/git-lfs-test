@@ -21,12 +21,12 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      # - name: Run the action 
-      #   uses: Sibz/github-status-action@v1
-      #   with: 
-      #     authToken: ${{secrets.GITHUB_TOKEN}}
-      #     context: 'Test run'
-      #     description: 'Passed'
-      #     state: 'failure'
-      #     sha: ${{github.event.pull_request.head.sha || github.sha}}
+      - name: Run the action 
+        uses: Sibz/github-status-action@v1
+        with: 
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: 'Bump Build / Run Tests'
+          description: 'Passed'
+          state: 'success'
+          sha: ${{github.event.pull_request.head.sha || github.sha}}
       - run: echo "🍏 This job's status is ${{ job.status }}."
