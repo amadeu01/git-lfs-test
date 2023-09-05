@@ -7,9 +7,34 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  changes:
+    name: Detect code changes
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: read
+
+    # Set job outputs to the values from the filter step below
+    # these are accessible in downstream workflows as e.g. `${{ needs.changes.outputs.code == 'true' }}`
+    outputs:
+      code: ${{ steps.filter.outputs.src }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Detect changes between the most recently pushed commit, and the previous commit on the branch
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            src:
+              - 'test.md'
+
   tests:
+    needs: changes
     name: Tests Success
     runs-on: ubuntu-latest
+    if: ${{ needs.changes.outputs.code == 'true' }}
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
