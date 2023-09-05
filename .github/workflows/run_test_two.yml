@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 2
       - name: Get the SHA of the previous commit
         run: |
-          echo "LAST_GIT_COMMIT=$(git rev-parse HEAD~1)" >> $GITHUB_ENV`
+          echo "LAST_GIT_COMMIT=$(git rev-parse HEAD~1)" >> $GITHUB_ENV
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
@@ -29,11 +29,12 @@ jobs:
           ls ${{ github.workspace }}
       - name: Get Status of current ref
         id: get-status
-        uses: danieldeichfuss/get-status@v0
+        uses: danieldeichfuss/get-status@v0.0.10
         with:
           ref: ${{ env.LAST_GIT_COMMIT }}
-      - run: echo {{ steps.get-status.outputs }}
+      - run: echo "${{ toJson(steps.get-status.outputs) }}"
       - name: Run the action 
+        if: ${{ steps.get-status.outputs.all-checks-passed == 'true' }}
         uses: Sibz/github-status-action@v1
         with: 
           authToken: ${{ secrets.GITHUB_TOKEN }}
