@@ -33,13 +33,13 @@ jobs:
         with:
           ref: ${{ env.LAST_GIT_COMMIT }}
       - run: echo "${{ toJson(steps.get-status.outputs) }}"
-      - name: Run the action 
-        if: ${{ steps.get-status.outputs.all-checks-passed == 'true' }}
-        uses: Sibz/github-status-action@v1
-        with: 
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: 'Bump Build / Run Tests'
-          description: 'Passed'
-          state: 'success'
-          sha: ${{ github.event.pull_request.head.sha || github.sha }}
+      # - name: Run the action 
+      #   if: ${{ steps.get-status.outputs.all-checks-passed == 'true' }}
+      #   uses: Sibz/github-status-action@v1
+      #   with: 
+      #     authToken: ${{ secrets.GITHUB_TOKEN }}
+      #     context: 'Bump Build / Run Tests'
+      #     description: 'Passed'
+      #     state: 'success'
+      #     sha: ${{ github.event.pull_request.head.sha || github.sha }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
